@@ -1,9 +1,6 @@
-version: '3'
-
 services:
 
     unitime-db:
-        image: mysql:8.3
         container_name: unitime-db
         restart: always
         command: --default-authentication-plugin=mysql_native_password
@@ -18,7 +15,7 @@ services:
             context: .
             dockerfile: mysql.Dockerfile
         volumes:
-            - "$UNITIME_DATA/db:/var/lib/mysql"
+            - "unitime-db:/var/lib/mysql"
 
     unitime-web:
         depends_on:
@@ -32,5 +29,8 @@ services:
         ports:
             - 8888:8080 
         volumes:
-            - "$UNITIME_DATA/tomcat:/usr/local/tomcat/data"
+            - "unitime-data:/usr/local/tomcat/data"
 
+volumes:
+    unitime-data:
+    unitime-db:
